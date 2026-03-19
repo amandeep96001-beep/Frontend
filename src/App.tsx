@@ -1,25 +1,27 @@
+
+
+
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import AppRouter from './AppRouter';
+import './index.css';
+
+import HelmetAsyncProvider from './providers/HelmetAsyncProvider';
+import { ErrorProvider } from './providers/ErrorProvider';
+import { NotificationProvider } from './providers/NotificationProvider';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HelmetAsyncProvider>
+      <ErrorProvider>
+        <NotificationProvider>
+          <div className="App">
+            <AppRouter />
+          </div>
+        </NotificationProvider>
+      </ErrorProvider>
+    </HelmetAsyncProvider>
   );
 }
 

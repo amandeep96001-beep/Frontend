@@ -1,0 +1,67 @@
+.notification {
+  display: flex;
+  align-items: center;
+  border-radius: 2rem;
+  padding: 0.5rem 1.5rem;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  min-width: 280px;
+  max-width: 400px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  transition: box-shadow 0.2s;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.icon svg {
+  display: block;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.message {
+  flex: 1;
+}
+
+.close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  color: #888;
+}
+
+.success {
+  border-color: var(--color-secondary);
+  color: #388e3c;
+}
+
+.info {
+  border-color: #2196f3;
+  color: #1565c0;
+}
+
+.warning {
+  border-color: #ff9800;
+  color: #ef6c00;
+}
+
+.error {
+  border-color: #f44336;
+  color: #b71c1c;
+}

@@ -1,0 +1,116 @@
+/* Modular CSS for Login component */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  background: var(--color-spring);
+}
+
+.login-card {
+  background: var(--color-surface);
+  margin-right: 4rem;
+  padding: 1rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.10);
+  max-width: 370px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.login-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.brand-logo {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.login-title {
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  width: 100%;
+}
+
+.login-field label {
+  color: var(--color-text);
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+}
+
+
+  .login-field input {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: var(--color-surface);
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 0.1rem;
+    box-sizing: border-box;
+  }
+
+.login-field input:focus {
+  border-color: var(--color-primary-dark);
+}
+
+.login-btn {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  color: var(--color-text-light);
+  border: none;
+  border-radius: 8px;
+  padding: 0.85rem;
+  font-size: 1.08rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+
+.login-btn:hover {
+  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-secondary));
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.13);
+}
+
+.login-footer {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.97rem;
+  color: var(--color-text);
+}
+
+.login-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 0.2rem;
+  transition: color 0.2s;
+}
+
+.login-link:hover {
+  color: var(--color-secondary);
+}
