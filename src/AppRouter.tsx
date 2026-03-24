@@ -20,6 +20,6 @@ const AppRouter: React.FC = () => {
       </Suspense>
     </Router>
   );
-};
+};  
 
 export default AppRouter;

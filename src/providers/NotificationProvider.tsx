@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 import Notification, { NotificationType } from '../ui/Notification/Notification';
 
-interface Notification {
+interface NotificationPayload {
   message: string;
   type?: NotificationType;
 }
 
 interface NotificationContextType {
-  notification: Notification | null;
-  showNotification: (notification: Notification) => void;
+  notification: NotificationPayload | null;
+  showNotification: (notification: NotificationPayload) => void;
   clearNotification: () => void;
 }
 
@@ -23,9 +23,9 @@ export const useNotification = () => {
 };
 
 export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const [notification, setNotification] = useState<NotificationPayload | null>(null);
 
-  const showNotification = useCallback((notification: Notification) => {
+  const showNotification = useCallback((notification: NotificationPayload) => {
     setNotification(notification);
     setTimeout(() => setNotification(null), 3000);
   }, []);

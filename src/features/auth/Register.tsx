@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles/Register.module.css';
 import Button from '../../components/Button/Button';
-import axios from 'axios';
+import { useRegisterMutation } from '../../redux/authApi';
+import { registerSchema } from '../../validation/register';
+import type { ZodIssue } from 'zod';
 
 interface RegisterForm {
   name: string;
@@ -22,7 +24,7 @@ const Register: React.FC = () => {
     password: '',
     confirmPassword: '',
   });
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof RegisterForm, string>>>({});
 
 
 
@@ -41,17 +43,16 @@ const Register: React.FC = () => {
     navigate('/login');
   } 
 
-  const validate = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!form.name) newErrors.name = 'Name is required';
-    if (!form.email) newErrors.email = 'Email is required';
-    if (!form.contact) newErrors.contact = 'Contact number is required';
-    if (!form.image) newErrors.image = 'Image is required';
-    if (!form.password) newErrors.password = 'Password is required';
-    if (form.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
-    if (form.password !== form.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
-    return newErrors;
-  };
+const validate = (data: RegisterForm) => {
+  const result = registerSchema.safeParse(data);
+  if (result.success) return {};
+  const fieldErrors: Partial<Record<keyof RegisterForm, string>> = {};
+  result.error.issues.forEach((err: ZodIssue) => {
+    const field = err.path[0] as keyof RegisterForm;
+    fieldErrors[field] = err.message;
+  });
+  return fieldErrors;
+};
 
   const formData = new FormData();
   formData.append('name', form.name);
@@ -62,24 +63,20 @@ const Register: React.FC = () => {
   }
   formData.append('password', form.password);
 console.log(process.env.BACKEND_URL_LOCAL);
-  const  handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    setErrors(validationErrors);
-    try{
-          if (Object.keys(validationErrors).length === 0) {
-     
-     await axios.post(`http://localhost:5000/api/v1/auth/register`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      alert('Registration successful!');
-    }
-    }catch(error){
-      alert('Registration failed. Please try again.');
-    }
+  const [register, { isLoading }] = useRegisterMutation();
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationErrors = validate(form);
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        await register(formData).unwrap();
+        alert('Registration successful!');
+      } catch (error) {
+        alert('Registration failed. Please try again.');
+      }
+    }
   };
 
   return (
@@ -114,13 +111,13 @@ console.log(process.env.BACKEND_URL_LOCAL);
             <input name="confirmPassword" type="password" placeholder="Confirm Password" value={form.confirmPassword} onChange={handleChange} style={{ color: '#222' }} />
             {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword}</span>}
           </div>
-       <Button variant="primary" onClick={()=>{
-            
-          }} label="Register"/>
+       <Button variant="primary" onClick={()=> {}} label={isLoading ? 'Registering...' : 'Register'} />
         </form>
         <div className={styles.registerFooter}>
           Already have an account?
-          <a className={styles.registerLink} onClick={loginHandaler}>Login</a>
+          <button type="button" className={styles.registerLink} onClick={loginHandaler}>
+            Login
+          </button>
         </div>
       </div>
     </div>
