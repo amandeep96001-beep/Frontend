@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Login from './features/auth/Login';
 import Register from './features/auth/Register';
-import NotFound from './features/NotFound';
 import { Suspense } from 'react';
 
 

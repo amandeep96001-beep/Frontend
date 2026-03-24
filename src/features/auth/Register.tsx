@@ -1,22 +1,17 @@
 import React, { useState } from 'react';
+import { useNotification } from '../../providers/NotificationProvider';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles/Register.module.css';
 import Button from '../../components/Button/Button';
-import { useRegisterMutation } from '../../redux/authApi';
+import { useRegisterMutation } from './auth.api';
 import { registerSchema } from '../../validation/register';
+import { IRegisterForm } from './interface';
 import type { ZodIssue } from 'zod';
 
-interface RegisterForm {
-  name: string;
-  email: string;
-  contact: string;
-  image: File | null;
-  password: string;
-  confirmPassword: string;
-}
+
 
 const Register: React.FC = () => {
-  const [form, setForm] = useState<RegisterForm>({
+  const [form, setForm] = useState<IRegisterForm>({
     name: '',
     email: '',
     contact: '',
@@ -24,7 +19,7 @@ const Register: React.FC = () => {
     password: '',
     confirmPassword: '',
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof RegisterForm, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof IRegisterForm, string>>>({});
 
 
 
@@ -43,12 +38,12 @@ const Register: React.FC = () => {
     navigate('/login');
   } 
 
-const validate = (data: RegisterForm) => {
+const validate = (data: IRegisterForm) => {
   const result = registerSchema.safeParse(data);
   if (result.success) return {};
-  const fieldErrors: Partial<Record<keyof RegisterForm, string>> = {};
+  const fieldErrors: Partial<Record<keyof IRegisterForm, string>> = {};
   result.error.issues.forEach((err: ZodIssue) => {
-    const field = err.path[0] as keyof RegisterForm;
+    const field = err.path[0] as keyof IRegisterForm;
     fieldErrors[field] = err.message;
   });
   return fieldErrors;
@@ -64,6 +59,7 @@ const validate = (data: RegisterForm) => {
   formData.append('password', form.password);
 console.log(process.env.BACKEND_URL_LOCAL);
   const [register, { isLoading }] = useRegisterMutation();
+  const { showNotification } = useNotification();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,9 +68,9 @@ console.log(process.env.BACKEND_URL_LOCAL);
     if (Object.keys(validationErrors).length === 0) {
       try {
         await register(formData).unwrap();
-        alert('Registration successful!');
+        showNotification({ message: 'Registration successful!', type: 'success' });
       } catch (error) {
-        alert('Registration failed. Please try again.');
+        showNotification({ message: 'Registration failed. Please try again.', type: 'error' });
       }
     }
   };
@@ -86,7 +82,7 @@ console.log(process.env.BACKEND_URL_LOCAL);
           <span className={styles.brandLogo}>Brand</span>
         </div>
         <div className={styles.registerTitle}>Register</div>
-        <form onSubmit={handleSubmit} className={styles.registerForm}>
+        <form onSubmit={handleSubmit} className={styles.IRegisterForm}>
           <div className={styles.registerField}>
             <input name="name" placeholder="Name" value={form.name} onChange={handleChange} style={{ color: '#222' }} />
             {errors.name && <span className={styles.error}>{errors.name}</span>}

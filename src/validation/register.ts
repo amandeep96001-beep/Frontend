@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-const imageSchema = z.instanceof(File, {
-  message: 'Image is required',
-});
+const imageSchema = z.instanceof(File).optional().or(z.null());
 
 export const registerSchema = z.object({
   name: z.string().min(1, 'Name is required'),
