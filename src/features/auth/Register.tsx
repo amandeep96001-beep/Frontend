@@ -84,27 +84,27 @@ console.log(process.env.BACKEND_URL_LOCAL);
         <div className={styles.registerTitle}>Register</div>
         <form onSubmit={handleSubmit} className={styles.IRegisterForm}>
           <div className={styles.registerField}>
-            <input name="name" placeholder="Name" value={form.name} onChange={handleChange} style={{ color: '#222' }} />
+            <input name="name" placeholder="Name" value={form.name} onChange={handleChange} />
             {errors.name && <span className={styles.error}>{errors.name}</span>}
           </div>
           <div className={styles.registerField}>
-            <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} style={{ color: '#222' }} />
+            <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} />
             {errors.email && <span className={styles.error}>{errors.email}</span>}
           </div>
           <div className={styles.registerField}>
-            <input name="contact" type="tel" placeholder="Contact Number" value={form.contact} onChange={handleChange} style={{ color: '#222' }} />
+            <input name="contact" type="tel" placeholder="Contact Number" value={form.contact} onChange={handleChange}/>
             {errors.contact && <span className={styles.error}>{errors.contact}</span>}
           </div>
           <div className={styles.registerField}>
-            <input name="image" type="file" accept="image/*" onChange={handleChange} style={{ color: '#222', background: '#fff' }} />
+            <input name="image" type="file" accept="image/*" onChange={handleChange} />
             {errors.image && <span className={styles.error}>{errors.image}</span>}
           </div>
           <div className={styles.registerField}>
-            <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} style={{ color: '#222' }} />
+            <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} />
             {errors.password && <span className={styles.error}>{errors.password}</span>}
           </div>
           <div className={styles.registerField}>
-            <input name="confirmPassword" type="password" placeholder="Confirm Password" value={form.confirmPassword} onChange={handleChange} style={{ color: '#222' }} />
+            <input name="confirmPassword" type="password" placeholder="Confirm Password" value={form.confirmPassword} onChange={handleChange} />
             {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword}</span>}
           </div>
        <Button variant="primary" onClick={()=> {}} label={isLoading ? 'Registering...' : 'Register'} />

@@ -67,11 +67,12 @@
   margin-bottom: 0.1rem;
 }
 
- .registerField input {
+.registerField input {
   width: 100%;
   padding: 10px 20px;
   border-radius: 50px;
-  color: var(--color-surface);
+  color: #222;
+  background: #fff;
   font-size: 1rem;
   outline: none;
   margin-bottom: 0.1rem;
