@@ -16,8 +16,14 @@ export const authApi = api.injectEndpoints({
         body: credentials,
       }),
     }),
+    refreshToken: builder.mutation<any, void>({
+      query: () => ({
+        url: 'auth/refresh',
+        method: 'POST',
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useRegisterMutation, useLoginMutation } = authApi;
+export const { useRegisterMutation, useLoginMutation, useRefreshTokenMutation } = authApi;
