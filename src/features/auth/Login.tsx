@@ -15,7 +15,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await login({ email, password }).unwrap();]
+      const response = await login({ email, password }).unwrap();
       showNotification({ message: 'Login successful!', type: 'success' });
     } catch (error) {
       showNotification({ message: 'Login failed. Please check your credentials.', type: 'error' });
