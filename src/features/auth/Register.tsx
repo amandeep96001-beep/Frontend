@@ -3,7 +3,7 @@ import { useNotification } from '../../providers/NotificationProvider';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles/Register.module.css';
 import Button from '../../components/Button/Button';
-import { useRegisterMutation } from './auth.api';
+import { useRegisterMutation } from '../../redux/auth.api';
 import { registerSchema } from '../../validation/register';
 import { IRegisterForm } from './interface';
 import type { ZodIssue } from 'zod';

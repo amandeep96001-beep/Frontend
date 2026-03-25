@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useNotification } from '../../providers/NotificationProvider';
 import Button from '../../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import { useLoginMutation } from './auth.api';
+import { useLoginMutation } from '../../redux/auth.api';
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
