@@ -1,8 +1,7 @@
 .sidebar {
   width: 220px;
-  background: #fff;
+  background: var(--color-surface);
   border-right: 1px solid #e5e7eb;
-  height: 100vh;
   max-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -29,7 +28,7 @@
 }
 .sectionTitle {
   font-size: 0.8rem;
-  color: #64748b;
+  color: var(--color-primary-gray);
   font-weight: 700;
   margin-bottom: 0.25rem;
   text-transform: uppercase;
@@ -47,7 +46,7 @@
   padding: 0.38rem 0.4rem 0.38rem 0.3rem;
   border-radius: 7px;
   font-size: 0.93rem;
-  color: #334155;
+  color: var(--color-primary-gray);
   cursor: pointer;
   transition: background 0.15s, color 0.15s, outline 0.13s;
   margin-bottom: 0.18rem;
@@ -55,8 +54,8 @@
 }
 .section ul li:hover,
 .section ul li.active {
-  background: #e0f2fe;
-  color: #0284c7;
+  background:  var(--color-secondary);
+  color: var(--color-surface);
   transform: translateX(4px);
   box-shadow: 0 0 0 4px #fff, 1px 2px 8px 0 rgba(2,132,199,0.06);
   z-index: 1;

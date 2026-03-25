@@ -1,0 +1,19 @@
+.centered {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  color: #334155;
+}
+.centered h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+  color: #0284c7;
+}
+.centered p {
+  font-size: 1.1rem;
+  color: #64748b;
+}

@@ -1,0 +1,14 @@
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+.mainContent {
+  flex: 1;
+  padding: 2.2rem 2.5rem 1.5rem 2.5rem;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
