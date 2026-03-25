@@ -53,12 +53,13 @@
   font-weight: 700;
 }
 
- .registerField {
+.registerField {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
   align-items: center;
   width: 100%;
+  position: relative;
+  margin-bottom: 0.7rem;
 }
 
  .registerField label {
@@ -67,16 +68,31 @@
   margin-bottom: 0.1rem;
 }
 
+
 .registerField input {
   width: 100%;
-  padding: 10px 20px;
-  border-radius: 50px;
+  padding: 14px 18px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 16px;
   color: #222;
-  background: #fff;
-  font-size: 1rem;
+  background: #f8fafc;
+  font-size: 1.05rem;
   outline: none;
   margin-bottom: 0.1rem;
   box-sizing: border-box;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 2px rgba(25, 118, 210, 0.03);
+}
+
+.registerField input:focus {
+  border-color: var(--color-primary);
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+
+.inputError {
+  border: 1.5px solid #d32f2f !important;
+  background: #fff0f0 !important;
 }
 
  .registerField input:focus {
@@ -123,7 +139,21 @@
 
 .error {
   color: #d32f2f;
-  font-size: 0.9rem;
-  margin-top: -0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.92rem;
+  position: absolute;
+  left: 12px;
+  bottom: -1.1em;
+  text-align: left;
+  width: calc(100% - 24px);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  z-index: 2;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.inputError {
+  border: 1px solid #d32f2f !important;
 }

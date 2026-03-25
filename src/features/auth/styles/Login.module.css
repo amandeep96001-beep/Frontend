@@ -64,15 +64,24 @@
 
   .login-field input {
     width: 100%;
-    padding: 10px 20px;
-    border-radius: 50px;
+    padding: 14px 18px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
     color: #222;
-    background: #fff;
-    font-size: 1rem;
+    background: #f8fafc;
+    font-size: 1.05rem;
     outline: none;
     margin-bottom: 0.1rem;
     box-sizing: border-box;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px rgba(25, 118, 210, 0.03);
   }
+
+.login-field input:focus {
+  border-color: var(--color-primary);
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
 
 .login-field input:focus {
   border-color: var(--color-primary-dark);
