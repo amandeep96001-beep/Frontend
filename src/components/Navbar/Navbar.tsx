@@ -1,6 +1,6 @@
-import { SearchIcon } from '../../asset/icons';
 import styles from './Navbar.module.css';
 import React from 'react';
+import SearchBox from '../SearchBox/SearchBox';
 
 const Navbar = () => {
   return (
@@ -8,16 +8,7 @@ const Navbar = () => {
       <div className={styles.left}>Add Product</div>
  
       <div className={styles.right}>
-         <div className={styles.searchBox}>
-          <input
-            className={styles.searchInput}
-            type="text"
-            placeholder="Search data, users, or reports"
-          />
-          <span className={styles.searchIcon}>
-            <SearchIcon />
-          </span>
-        </div>
+        <SearchBox placeholder="Search product for add" />
         <button className={styles.iconBtn} title="Notifications">
           <span role="img" aria-label="bell">🔔</span>
         </button>
@@ -34,4 +25,4 @@ const Navbar = () => {
   );
 };
 
-    export default Navbar;
+  export default Navbar;

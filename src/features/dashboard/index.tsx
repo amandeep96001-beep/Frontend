@@ -1,7 +1,7 @@
 import Sidebar from './sidebar/Sidebar';
 import styles from './Dashboard.module.css';
 import Navbar from '../../components/Navbar/Navbar';
-import FeatureComingSoon from './FeatureComingSoon/FeatureComingSoon';
+import FeatureComingSoon from './FeatureComingSoon/AddProducts';
 
 const Dashboard = () => {
   return (
