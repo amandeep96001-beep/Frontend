@@ -30,7 +30,63 @@
 }
 
 .textarea {
-  min-height: 120px;
+  height: 1.5rem;
+  min-height: 12px;
+  max-height: 200px;
   font-family: inherit;
   line-height: 1.5;
+}
+
+.discountInputWrapper {
+  position: relative;
+}
+
+.currencyPrefix {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #e6f9e6;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #256d1b;
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.discountInput {
+  padding-left: 3.5rem;
+}
+
+.calendarContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.calendarInput {
+  padding-right: 2.5rem;
+}
+
+.calendarIcon {
+  position: absolute;
+  right: 1rem;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

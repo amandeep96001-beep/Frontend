@@ -7,3 +7,7 @@
 .basicDetailTitle {
 margin: 0;
 }
+.inputWrapper{
+    display: flex;
+    gap: 1rem;
+}
