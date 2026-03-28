@@ -1,10 +1,13 @@
-
+import { useId, useState } from 'react';
 import MainCard from "../../../../components/Main-Card/MainCard";
 import InputField from "../../../../components/Form/InputField";
 import styles from './BasicDetail.module.css';
 
 
-const BasicDetail: React.FC = () => {
+const BasicDetail = () => {
+    const [taxIncluded, setTaxIncluded] = useState('yes');
+    const taxIncludedName = useId();
+
     return (
         <MainCard>
             <div className={styles.basicDetailContainer}>
@@ -18,9 +21,38 @@ const BasicDetail: React.FC = () => {
                 <h4>Pricing</h4>
                 <InputField label="Product Price" type="number" placeholder="Enter product price" />
                 <div className={styles.inputWrapper}>
-                    <InputField label="Discount Price" variant="discount" type="number" placeholder="Enter discount price" />
+                    <InputField
+                        label="Discount Price"
+                        variant="discount"
+                        type="number"
+                        placeholder="Enter discount price"
+                    />
+                    <div className={styles.inputContainer}>
+                        <h4 className={styles.inputLabel}>Tax Included</h4>
+                        <div className={styles.radioGroup}>
+                            <label className={styles.radioLabel}>
+                                <input
+                                    type="radio"
+                                    name={taxIncludedName}
+                                    value="yes"
+                                    checked={taxIncluded === 'yes'}
+                                    onChange={() => setTaxIncluded('yes')}
+                                />
+                                Yes
+                            </label>
+                            <label className={styles.radioLabel}>
+                                <input
+                                    type="radio"
+                                    name={taxIncludedName}
+                                    value="no"
+                                    checked={taxIncluded === 'no'}
+                                    onChange={() => setTaxIncluded('no')}
+                                />
+                                No
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <InputField label="Sale Price" type="number" placeholder="Enter sale price" />
             </div>
 
         </MainCard>
