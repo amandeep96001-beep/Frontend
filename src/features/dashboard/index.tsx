@@ -1,16 +1,16 @@
 import Sidebar from './sidebar/Sidebar';
 import styles from './Dashboard.module.css';
 import Navbar from '../../components/Navbar/Navbar';
-import FeatureComingSoon from './FeatureComingSoon/AddProducts';
+import AddProduct from './Add-Product';
 
 const Dashboard = () => {
   return (
     <div className={styles.dashboard}>
       <Sidebar />
-      <div style={{flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
+      <div className={styles.dashboardContent}>
         <Navbar />
         <main className={styles.mainContent}>
-          <FeatureComingSoon />
+          <AddProduct />
         </main>
       </div>
     </div>

@@ -1,8 +1,18 @@
+.mainContent {
+  display: flex;
+  gap: 1rem;
+}
+.mainContent > * {
+  flex-grow: 1; 
+}
+
+
 .container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 0.8rem 1rem;
+  overflow: auto;
 }
 
 .topBar {
@@ -10,6 +20,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  position: sticky;
+  top: 0;
+  background: #f8fafc;
+  z-index: 1;
 }
 
 .title {
@@ -60,4 +74,25 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+/* webkit scrollbar styles for container */
+
+.container::-webkit-scrollbar {
+  width: 3px;
+  position: absolute; 
+  
+}
+
+.container::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary); 
+  border-radius: 4px; 
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary); 
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import FeatureComingSoon from '../FeatureComingSoon/AddProducts';
+import FeatureComingSoon from '../Add-Product';
 
 const Transaction = () => <FeatureComingSoon />;
 export default Transaction;

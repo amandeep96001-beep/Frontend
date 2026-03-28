@@ -2,6 +2,7 @@ import styles from './AddProducts.module.css';
 import SearchBox from '../../../components/SearchBox/SearchBox';
 import Button from '../../../components/Button/Button';
 import {PlusIcon} from "../../../asset/icons";
+import BasicDetail from './BasicDetail/BasicDetail';
 
 
 const AddProduct = () => (
@@ -17,6 +18,16 @@ const AddProduct = () => (
         <Button label="Publish Product" variant="primary" onClick={() => {}}  />
         <Button label="Save to draft" variant="ghost" onClick={() => {}}/>
         <Button label="" icon={<PlusIcon />} variant="ghost" onClick={() => {}}  aria-label="Add" />
+      </div>
+    </div>
+    
+    <div className={styles.mainContent}>
+      <div className={styles.leftContainer}>
+        <BasicDetail  />
+      </div>  
+      <div className={styles.rightContainer}>
+        <BasicDetail  />
+    
       </div>
     </div>
   </div>
