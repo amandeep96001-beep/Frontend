@@ -1,16 +1,22 @@
 import React from 'react';
 import styles from './RadioButton.module.css';
 
-interface RadioButtonProps {
-  name: string;
-  options: { label: string; value: string }[];
-  selectedValue: string;
-  onChange: (value: string) => void;
+interface RadioButtonOption {
+  label: string;
+  value: string;
 }
 
-const RadioButton: React.FC<RadioButtonProps> = ({ name, options, selectedValue, onChange }) => {
+interface RadioButtonProps {
+  name: string;
+  options: RadioButtonOption[];
+  selectedValue: string;
+  onChange: (value: string) => void;
+  direction?: 'row' | 'column'; 
+}
+
+const RadioButton: React.FC<RadioButtonProps> = ({ name, options, selectedValue, onChange, direction = 'column' }) => {
   return (
-    <div className={styles.radioGroup}>
+    <div className={styles.radioGroup} style={{ flexDirection: direction }}>
       {options.map((option) => (
         <label key={option.value} className={styles.radioLabel}>
           <input

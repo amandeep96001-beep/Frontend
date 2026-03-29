@@ -1,6 +1,7 @@
-import { useId, useState } from 'react';
+import React, { useId, useState } from 'react';
 import MainCard from "../../../../components/Main-Card/MainCard";
 import InputField from "../../../../components/Form/InputField";
+import RadioButton from "../../../../components/Form/RadioButton";
 import styles from './BasicDetail.module.css';
 
 
@@ -29,28 +30,16 @@ const BasicDetail = () => {
                     />
                     <div className={styles.inputContainer}>
                         <h4 className={styles.inputLabel}>Tax Included</h4>
-                        <div className={styles.radioGroup}>
-                            <label className={styles.radioLabel}>
-                                <input
-                                    type="radio"
-                                    name={taxIncludedName}
-                                    value="yes"
-                                    checked={taxIncluded === 'yes'}
-                                    onChange={() => setTaxIncluded('yes')}
-                                />
-                                Yes
-                            </label>
-                            <label className={styles.radioLabel}>
-                                <input
-                                    type="radio"
-                                    name={taxIncludedName}
-                                    value="no"
-                                    checked={taxIncluded === 'no'}
-                                    onChange={() => setTaxIncluded('no')}
-                                />
-                                No
-                            </label>
-                        </div>
+                        <RadioButton
+                            name={taxIncludedName}
+                            options={[
+                                { label: "Yes", value: "yes" },
+                                { label: "No", value: "no" },
+                            ]}
+                            selectedValue={taxIncluded}
+                            onChange={setTaxIncluded}
+                            direction="column"
+                        />
                     </div>
                 </div>
             </div>
