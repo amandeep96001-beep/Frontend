@@ -1,6 +1,6 @@
 import React from 'react';
 import { SearchIcon } from '../../asset/icons';
-import styles from './SearchBox.module.css';
+import styles from './styles/SearchBox.module.css';
 
 type SearchBoxVariant = 'round' | 'default' | 'compact';
 

@@ -1,4 +1,4 @@
-import styles from './Button.module.css';
+import styles from './styles/Button.module.css';
 import { ButtonProps } from './interface';
 
 const Button: React.FC<ButtonProps & { className?: string }> = ({

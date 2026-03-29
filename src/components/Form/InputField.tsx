@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './InputField.module.css';
+import styles from './styles/InputField.module.css';
 
 interface InputFieldProps {
   label: string;

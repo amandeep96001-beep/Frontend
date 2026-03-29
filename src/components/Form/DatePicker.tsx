@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './DatePicker.module.css';
-import inputStyles from './InputField.module.css';
+import styles from './styles/DatePicker.module.css';
+import inputStyles from './styles/InputField.module.css';
 
 interface DatePickerProps {
     label?: string;

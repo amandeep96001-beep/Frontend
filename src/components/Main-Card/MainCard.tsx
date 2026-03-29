@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './MainCard.module.css';
+import styles from './styles/MainCard.module.css';
 import { IMainCardProps } from './interface';
 
 const MainCard: React.FC<IMainCardProps> = ({ children }: IMainCardProps) => (
