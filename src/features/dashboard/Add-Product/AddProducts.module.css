@@ -1,6 +1,7 @@
 .mainContent {
   display: flex;
   gap: 1rem;
+  padding: 1rem;
   align-items: flex-start;
 }
 
@@ -19,20 +20,21 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 0.8rem 1rem;
   overflow: auto;
 }
 
 .topBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   position: sticky;
   top: 0;
   background: #f8fafc;
   z-index: 1;
+}
+.topBarInner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem
 }
 
 .title {

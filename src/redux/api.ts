@@ -1,6 +1,6 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { BaseQueryFn, FetchArgs, BaseQueryApi } from '@reduxjs/toolkit/query';
+import type { BaseQueryFn, FetchArgs} from '@reduxjs/toolkit/query';
 
 const baseUrl = (process.env.REACT_APP_BACKEND_URL_LOCAL || '').trim();
 

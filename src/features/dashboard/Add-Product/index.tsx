@@ -9,6 +9,7 @@ import ProductMedia from './ProductMedia/ProductMedia';
 const AddProduct = () => (
   <div className={styles.container}>
     <div className={styles.topBar}>
+      <div className={styles.topBarInner}>
       <div className={styles.title}>Add New Product</div>
       <div className={styles.actions}>
         <SearchBox
@@ -19,6 +20,7 @@ const AddProduct = () => (
         <Button label="Publish Product" variant="primary" onClick={() => {}}  />
         <Button label="Save to draft" variant="ghost" onClick={() => {}}/>
         <Button label="" icon={<PlusIcon />} variant="ghost" onClick={() => {}}  aria-label="Add" />
+      </div>
       </div>
     </div>
     
