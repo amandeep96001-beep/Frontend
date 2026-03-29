@@ -2,6 +2,7 @@ import React, { useId, useState } from 'react';
 import MainCard from "../../../../components/Main-Card/MainCard";
 import InputField from "../../../../components/Form/InputField";
 import RadioButton from "../../../../components/Form/RadioButton";
+import DatePicker from "../../../../components/Form/DatePicker";
 import styles from './BasicDetail.module.css';
 
 
@@ -40,6 +41,17 @@ const BasicDetail = () => {
                             onChange={setTaxIncluded}
                             direction="column"
                         />
+                    </div>
+
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h4 className={styles.inputLabel}>Expiration</h4>
+                    <div className={styles.inputWrapper}>
+                        <DatePicker placeholder="Start" />
+                        <DatePicker placeholder="End" />
                     </div>
                 </div>
             </div>

@@ -1,0 +1,109 @@
+.inputRow {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.calendarIcon {
+    position: absolute;
+    right: 0.85rem;
+    cursor: pointer;
+    color: var(--color-primary, #023337);
+    display: flex;
+    align-items: center;
+    line-height: 0;
+}
+
+/* Popup card */
+.popup {
+    position: absolute;
+    z-index: 9999;
+    top: calc(100% + 4px);
+    left: 0;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(16, 30, 54, 0.13);
+    padding: 1rem 1rem 0.75rem;
+    min-width: 256px;
+    user-select: none;
+}
+
+/* Month / year header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+}
+
+.monthYear {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-primary, #023337);
+}
+
+.navBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0 0.2rem;
+    color: var(--color-primary, #023337);
+    border-radius: 50%;
+    transition: background 0.15s;
+}
+
+.navBtn:hover {
+    background: var(--color-tertiary, #C1E6BA);
+}
+
+/* 7-col day grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.dayName {
+    text-align: center;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #94a3b8;
+    padding-bottom: 0.3rem;
+}
+
+.day {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.82rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    color: #1e293b;
+    transition: background 0.15s;
+}
+
+.day:hover {
+    background: color-mix(in srgb, var(--color-tertiary, #C1E6BA) 60%, transparent);
+}
+
+/* Today ring */
+.today {
+    border: 1.5px solid var(--color-tertiary, #C1E6BA);
+    font-weight: 700;
+}
+
+/* Selected — filled circle */
+.selected {
+    background: var(--color-tertiary, #C1E6BA) !important;
+    color: var(--color-primary, #023337);
+    font-weight: 700;
+    border-radius: 50%;
+}
