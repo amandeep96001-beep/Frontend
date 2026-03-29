@@ -5,7 +5,7 @@
     width: 100%;
 }
 .basicDetailTitle {
-margin: 0;
+margin: 0.5rem 0rem;
 }
 .inputWrapper{
     display: grid;
@@ -39,4 +39,26 @@ margin: 0;
     align-items: center;
     gap: 0.35rem;
     cursor: pointer;
+}
+
+.inventorySection {
+    margin-top: 1rem;
+}
+
+.formGroup {
+    margin-top: 0.75rem;
+}
+
+.featuredGroup {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
 }

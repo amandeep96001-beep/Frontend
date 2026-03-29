@@ -3,6 +3,7 @@ import SearchBox from '../../../components/SearchBox/SearchBox';
 import Button from '../../../components/Button/Button';
 import {PlusIcon} from "../../../asset/icons";
 import BasicDetail from './BasicDetail/BasicDetail';
+import ProductMedia from './ProductMedia/ProductMedia';
 
 
 const AddProduct = () => (
@@ -26,8 +27,7 @@ const AddProduct = () => (
         <BasicDetail  />
       </div>  
       <div className={styles.rightContainer}>
-        <BasicDetail  />
-    
+        <ProductMedia />
       </div>
     </div>
   </div>

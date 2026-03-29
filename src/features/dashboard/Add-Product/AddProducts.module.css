@@ -1,9 +1,18 @@
 .mainContent {
   display: flex;
   gap: 1rem;
+  align-items: flex-start;
 }
-.mainContent > * {
-  flex-grow: 1; 
+
+.leftContainer {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rightContainer {
+  flex: 0 0 430px;
+  width: 430px;
+  min-width: 340px;
 }
 
 
@@ -95,4 +104,16 @@
 
 .container::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-primary); 
+}
+
+@media (max-width: 1100px) {
+  .mainContent {
+    flex-direction: column;
+  }
+
+  .rightContainer {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
 }

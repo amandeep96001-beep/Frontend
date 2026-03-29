@@ -10,10 +10,11 @@ interface InputFieldProps {
   className?: string;
   multiline?: boolean;
   rows?: number;
-  variant?: 'default' | 'calendar' | 'discount';
+  variant?: 'default' | 'calendar' | 'discount' | 'dropdown';
   currencySymbol?: string;
   onCalendarClick?: () => void;
   calendarIcon?: React.ReactNode;
+  dropdownOptions?: { label: string; value: string }[];
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -29,6 +30,7 @@ const InputField: React.FC<InputFieldProps> = ({
   currencySymbol = '$',
   onCalendarClick,
   calendarIcon,
+  dropdownOptions,
 }) => {
   return (
     <div className={`${styles.inputFieldContainer} ${className}`}>
@@ -72,6 +74,21 @@ const InputField: React.FC<InputFieldProps> = ({
           onChange={onChange}
           rows={rows}
         />
+      ) : variant === 'dropdown' ? (
+        <div className={styles.dropdown}>
+          <select
+            className={styles.input}
+            value={value}
+            onChange={(e) => onChange && onChange(e as unknown as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)}
+          >
+            <option value="" disabled>{placeholder}</option>
+            {dropdownOptions?.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
       ) : (
         <input
           className={styles.input}
