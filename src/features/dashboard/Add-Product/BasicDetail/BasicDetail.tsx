@@ -35,6 +35,7 @@ const BasicDetail = () => {
                     onChange={(e) => setProductPrice(e.target.value)}
                     type="number"
                 />
+                    <div className={styles.inputWrapper}>
                 <InputField
                     label="Discounted Price (Optional)"
                     placeholder="$99"
@@ -43,7 +44,6 @@ const BasicDetail = () => {
                     type="number"
                     variant="discount"
                 />
-                <div className={styles.inputWrapper}>
                     <div className={styles.inputContainer}>
                         <h4 className={styles.inputLabel}>Tax Included</h4>
                         <RadioButton

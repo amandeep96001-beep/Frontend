@@ -36,11 +36,13 @@
 }
 
 .textarea {
-  height: 1.5rem;
-  min-height: 12px;
+  height: auto;
+  min-height: 5rem;
   max-height: 200px;
   font-family: inherit;
   line-height: 1.5;
+  resize: vertical;
+  display: block;
 }
 
 .discountInputWrapper {
@@ -55,11 +57,11 @@
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  background: #e6f9e6;
+  background: var(--color-spring);
   padding: 0.1rem 0.5rem;
   border-radius: 6px;
   font-weight: 600;
-  color: #256d1b;
+  color: var(--color-primary);
   font-size: 0.95rem;
   pointer-events: none;
 }
