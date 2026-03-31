@@ -3,60 +3,66 @@ import MainCard from '../../../../components/Main-Card/MainCard';
 import InputField from '../../../../components/Form/InputField';
 import Button from '../../../../components/Button/Button';
 import styles from './ProductMedia.module.css';
+import { uploadToCloudinary } from '../../../../utils/cloudinary';
+import { ProductMediaState } from '../types';
+import { useNotification } from '../../../../providers/NotificationProvider';
 
-const ProductMedia = () => {
+
+interface ProductMediaProps {
+  value: ProductMediaState;
+  onChange: (next: ProductMediaState) => void;
+  isUploading: boolean;
+  onUploadStateChange: (status: boolean) => void;
+}
+
+const ProductMedia: React.FC<ProductMediaProps> = ({ value, onChange, isUploading, onUploadStateChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const previousImagesRef = useRef<string[]>([]);
-  const [images, setImages] = useState<string[]>([]);
   const [activeImage, setActiveImage] = useState<string>('');
-  const [category, setCategory] = useState('');
-  const [tag, setTag] = useState('');
-  const [selectedColor, setSelectedColor] = useState('#c8dfbe');
-
-  const isObjectUrl = (url: string) => url.startsWith('blob:');
+  const { showNotification } = useNotification();
 
   useEffect(() => {
-    const removedImages = previousImagesRef.current.filter(
-      (url) => isObjectUrl(url) && !images.includes(url)
-    );
+    if (!value.images.length) {
+      setActiveImage('');
+      return;
+    }
+    setActiveImage((current) => (value.images.includes(current) ? current : value.images[0]));
+  }, [value.images]);
 
-    removedImages.forEach((url) => URL.revokeObjectURL(url));
-    previousImagesRef.current = images;
-  }, [images]);
+  const colors = useMemo(() => ['#c8dfbe', '#e2cbd0', '#dce2e6', '#ece4c6', '#5f6368'], []);
 
-  useEffect(() => {
-    return () => {
-      previousImagesRef.current.forEach((url) => {
-        if (isObjectUrl(url)) {
-          URL.revokeObjectURL(url);
-        }
-      });
-    };
-  }, []);
-
-  const colors = useMemo(
-    () => ['#c8dfbe', '#e2cbd0', '#dce2e6', '#ece4c6', '#5f6368'],
-    []
-  );
-
-  const handleFilePick = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFilePick = async (event: ChangeEvent<HTMLInputElement>) => {
     const pickedFiles = Array.from(event.target.files || []);
     if (!pickedFiles.length) return;
 
-    const nextImages = pickedFiles.map((file) => URL.createObjectURL(file));
-    setImages((prev) => [...nextImages, ...prev]);
-    setActiveImage(nextImages[0]);
-    event.target.value = '';
+    onUploadStateChange(true);
+    try {
+      const uploads = await Promise.all(pickedFiles.map((file) => uploadToCloudinary(file)));
+      const urls = uploads.map((result) => result.secure_url);
+      onChange({
+        ...value,
+        images: [...urls, ...value.images],
+      });
+      setActiveImage(urls[0]);
+      showNotification({ message: 'Images uploaded successfully.', type: 'success' });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unable to upload image.';
+      showNotification({ message, type: 'error' });
+    } finally {
+      onUploadStateChange(false);
+      if (event.target) {
+        event.target.value = '';
+      }
+    }
   };
 
   const handleRemoveActiveImage = () => {
     if (!activeImage) return;
-
-    setImages((prev) => {
-      const next = prev.filter((image) => image !== activeImage);
-      setActiveImage(next[0] || '');
-      return next;
+    const nextImages = value.images.filter((image) => image !== activeImage);
+    onChange({
+      ...value,
+      images: nextImages,
     });
+    setActiveImage(nextImages[0] || '');
   };
 
   return (
@@ -78,8 +84,9 @@ const ProductMedia = () => {
                 className={styles.smallButton}
                 type="button"
                 variant="ghost"
-                label="Browse"
+                label={isUploading ? 'Uploading...' : 'Browse'}
                 onClick={() => inputRef.current?.click()}
+                disabled={isUploading}
               />
               {activeImage ? (
                 <Button
@@ -88,6 +95,7 @@ const ProductMedia = () => {
                   variant="ghost"
                   label="Remove"
                   onClick={handleRemoveActiveImage}
+                  disabled={isUploading}
                 />
               ) : (
                 <Button
@@ -96,9 +104,15 @@ const ProductMedia = () => {
                   variant="ghost"
                   label="Add"
                   onClick={() => inputRef.current?.click()}
+                  disabled={isUploading}
                 />
               )}
             </div>
+            {isUploading && (
+              <p className={styles.uploadStatus} aria-live="polite">
+                Uploading images to Cloudinary...
+              </p>
+            )}
           </div>
 
           <input
@@ -111,7 +125,7 @@ const ProductMedia = () => {
           />
 
           <div className={styles.thumbnailRow}>
-            {images.map((image) => (
+            {value.images.map((image) => (
               <button
                 key={image}
                 type="button"
@@ -122,7 +136,7 @@ const ProductMedia = () => {
               </button>
             ))}
 
-            <button type="button" className={styles.addImage} onClick={() => inputRef.current?.click()}>
+            <button type="button" className={styles.addImage} onClick={() => inputRef.current?.click()} disabled={isUploading}>
               <span className={styles.addIcon}>+</span>
               <span>Add Image</span>
             </button>
@@ -135,8 +149,13 @@ const ProductMedia = () => {
           <InputField
             label="Product Categories"
             placeholder="Select your product"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={value.categoryId}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                categoryId: (event.target as HTMLInputElement).value,
+              })
+            }
             variant="dropdown"
             dropdownOptions={[
               { label: 'Phone', value: 'phone' },
@@ -148,8 +167,13 @@ const ProductMedia = () => {
           <InputField
             label="Product Tag"
             placeholder="Select your product"
-            value={tag}
-            onChange={(e) => setTag(e.target.value)}
+            value={value.tag}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                tag: (event.target as HTMLInputElement).value,
+              })
+            }
             variant="dropdown"
             dropdownOptions={[
               { label: 'New Arrival', value: 'new' },
@@ -168,9 +192,14 @@ const ProductMedia = () => {
                 type="button"
                 variant="ghost"
                 label=""
-                className={`${styles.colorSwatchButton} ${styles.colorSwatch} ${selectedColor === color ? styles.colorActive : ''}`}
+                className={`${styles.colorSwatchButton} ${styles.colorSwatch} ${value.selectedColor === color ? styles.colorActive : ''}`}
                 style={{ backgroundColor: color }}
-                onClick={() => setSelectedColor(color)}
+                onClick={() =>
+                  onChange({
+                    ...value,
+                    selectedColor: color,
+                  })
+                }
                 aria-label={`Select color ${color}`}
               />
             ))}

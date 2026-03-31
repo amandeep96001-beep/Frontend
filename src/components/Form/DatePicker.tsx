@@ -42,6 +42,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
         return () => document.removeEventListener('mousedown', handler);
     }, []);
 
+    useEffect(() => {
+        setSelected(value);
+    }, [value]);
+
     const handleToggle = () => {
         if (!open && inputRef.current) {
             const rect = inputRef.current.getBoundingClientRect();
