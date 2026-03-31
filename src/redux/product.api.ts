@@ -1,8 +1,52 @@
 import { api } from './api';
-import { CreateProductPayload } from '../features/dashboard/Add-Product/types';
+import { CreateProductPayload, Category } from '../features/dashboard/Add-Product/types';
+
+const extractCategoryArray = (source: unknown): Category[] | null => {
+  if (Array.isArray(source)) {
+    return source as Category[];
+  }
+
+  if (source && typeof source === 'object') {
+    const bucket = source as Record<string, unknown>;
+    for (const key of ['data', 'categories', 'results', 'items']) {
+      const candidate = bucket[key];
+      if (Array.isArray(candidate)) {
+        return candidate as Category[];
+      }
+    }
+  }
+
+  return null;
+};
+
+const normalizeCategoryResponse = (response: unknown): Category[] => {
+  const direct = extractCategoryArray(response);
+  if (direct) {
+    return direct;
+  }
+
+  if (response && typeof response === 'object') {
+    const bucket = response as Record<string, unknown>;
+    for (const value of Object.values(bucket)) {
+      const nested = extractCategoryArray(value);
+      if (nested) {
+        return nested;
+      }
+    }
+  }
+
+  return [];
+};
 
 export const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    getCategories: builder.query<Category[], void>({
+      query: () => ({
+        url: 'category',
+        method: 'GET',
+      }),
+      transformResponse: (response: unknown) => normalizeCategoryResponse(response),
+    }),
     createProduct: builder.mutation<unknown, CreateProductPayload>({
       query: (product) => ({
         url: '/product',
@@ -14,4 +58,4 @@ export const productApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useCreateProductMutation } = productApi;
+export const { useCreateProductMutation, useGetCategoriesQuery } = productApi;

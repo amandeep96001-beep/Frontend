@@ -56,3 +56,9 @@ export interface CreateProductPayload {
   color?: string;
   isFeatured?: boolean;
 }
+
+export interface Category {
+  _id: string;
+  name: string;
+  description?: string;
+}

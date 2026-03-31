@@ -6,6 +6,38 @@ import styles from './ProductMedia.module.css';
 import { uploadToCloudinary } from '../../../../utils/cloudinary';
 import { ProductMediaState } from '../types';
 import { useNotification } from '../../../../providers/NotificationProvider';
+import { useGetCategoriesQuery } from '../../../../redux/product.api';
+
+const deriveCategoryErrorMessage = (error: unknown) => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  if (error && typeof error === 'object') {
+    const payload = error as { data?: unknown; error?: string };
+    if (typeof payload.error === 'string' && payload.error.trim()) {
+      return payload.error;
+    }
+
+    if (payload.data) {
+      if (typeof payload.data === 'string') {
+        return payload.data;
+      }
+
+      if (typeof payload.data === 'object') {
+        const data = payload.data as { message?: string; error?: string };
+        if (data.message) {
+          return data.message;
+        }
+        if (data.error) {
+          return data.error;
+        }
+      }
+    }
+  }
+
+  return 'Unable to load categories.';
+};
 
 
 interface ProductMediaProps {
@@ -19,6 +51,20 @@ const ProductMedia: React.FC<ProductMediaProps> = ({ value, onChange, isUploadin
   const inputRef = useRef<HTMLInputElement>(null);
   const [activeImage, setActiveImage] = useState<string>('');
   const { showNotification } = useNotification();
+  const {
+    data: categories = [],
+    isLoading: isCategoriesLoading,
+    isFetching: isCategoriesFetching,
+    isError: isCategoriesError,
+    error: categoriesError,
+  } = useGetCategoriesQuery();
+
+  useEffect(() => {
+    if (!isCategoriesError) {
+      return;
+    }
+    showNotification({ message: deriveCategoryErrorMessage(categoriesError), type: 'error' });
+  }, [isCategoriesError, categoriesError, showNotification]);
 
   useEffect(() => {
     if (!value.images.length) {
@@ -29,6 +75,25 @@ const ProductMedia: React.FC<ProductMediaProps> = ({ value, onChange, isUploadin
   }, [value.images]);
 
   const colors = useMemo(() => ['#c8dfbe', '#e2cbd0', '#dce2e6', '#ece4c6', '#5f6368'], []);
+  const categoryOptions = useMemo(
+    () => categories.map((category) => ({ label: category.name, value: category._id })),
+    [categories]
+  );
+  const selectedCategory = useMemo(
+    () => categories.find((category) => category._id === value.categoryId),
+    [categories, value.categoryId]
+  );
+  const isCategoryLoadingState = isCategoriesLoading || isCategoriesFetching;
+  const categoryPlaceholder = useMemo(() => {
+    if (isCategoryLoadingState) {
+      return 'Loading categories...';
+    }
+    if (!categories.length) {
+      return isCategoriesError ? 'Unable to load categories' : 'No categories available';
+    }
+    return 'Select product category';
+  }, [categories, isCategoriesError, isCategoryLoadingState]);
+  const disableCategorySelect = isCategoryLoadingState || !categories.length;
 
   const handleFilePick = async (event: ChangeEvent<HTMLInputElement>) => {
     const pickedFiles = Array.from(event.target.files || []);
@@ -148,7 +213,7 @@ const ProductMedia: React.FC<ProductMediaProps> = ({ value, onChange, isUploadin
 
           <InputField
             label="Product Categories"
-            placeholder="Select your product"
+            placeholder={categoryPlaceholder}
             value={value.categoryId}
             onChange={(event) =>
               onChange({
@@ -157,13 +222,10 @@ const ProductMedia: React.FC<ProductMediaProps> = ({ value, onChange, isUploadin
               })
             }
             variant="dropdown"
-            dropdownOptions={[
-              { label: 'Phone', value: 'phone' },
-              { label: 'Laptop', value: 'laptop' },
-              { label: 'Accessories', value: 'accessories' },
-            ]}
+            dropdownOptions={categoryOptions}
+            disabled={disableCategorySelect}
           />
-
+    
           <InputField
             label="Product Tag"
             placeholder="Select your product"

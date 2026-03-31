@@ -141,19 +141,7 @@ const BasicDetail: React.FC<IBasicDetailProps> = ({
                         type="number"
                         variant="discount"
                     />
-                    <div className={styles.inputContainer}>
-                        <h4 className={styles.inputLabel}>Tax Included</h4>
-                        <RadioButton
-                            name={taxIncludedName}
-                            options={[
-                                { label: 'Yes', value: 'yes' },
-                                { label: 'No', value: 'no' },
-                            ]}
-                            selectedValue={value.taxIncluded}
-                            onChange={(option) => setField('taxIncluded', option as BasicDetailFormState['taxIncluded'])}
-                            direction="column"
-                        />
-                    </div>
+
                     <InputField
                         label="Tax Amount (%)"
                         placeholder="0"

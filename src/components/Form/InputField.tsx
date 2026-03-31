@@ -15,6 +15,7 @@ interface InputFieldProps {
   onCalendarClick?: () => void;
   calendarIcon?: React.ReactNode;
   dropdownOptions?: { label: string; value: string }[];
+  disabled?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -31,6 +32,7 @@ const InputField: React.FC<InputFieldProps> = ({
   onCalendarClick,
   calendarIcon,
   dropdownOptions,
+  disabled = false,
 }) => {
   return (
     <div className={`${styles.inputFieldContainer} ${className}`}>
@@ -44,6 +46,7 @@ const InputField: React.FC<InputFieldProps> = ({
             placeholder={placeholder}
             value={value}
             onChange={onChange}
+            disabled={disabled}
           />
         </div>
       ) : variant === 'calendar' ? (
@@ -56,6 +59,7 @@ const InputField: React.FC<InputFieldProps> = ({
             onChange={onChange}
             readOnly={!!onCalendarClick}
             onClick={onCalendarClick}
+            disabled={disabled}
           />
           <span
             className={styles.calendarIcon}
@@ -73,6 +77,7 @@ const InputField: React.FC<InputFieldProps> = ({
           value={value}
           onChange={onChange}
           rows={rows}
+          disabled={disabled}
         />
       ) : variant === 'dropdown' ? (
         <div className={styles.dropdown}>
@@ -80,6 +85,7 @@ const InputField: React.FC<InputFieldProps> = ({
             className={styles.input}
             value={value}
             onChange={(e) => onChange && onChange(e as unknown as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)}
+            disabled={disabled}
           >
             <option value="" disabled>{placeholder}</option>
             {dropdownOptions?.map((option) => (
@@ -96,6 +102,7 @@ const InputField: React.FC<InputFieldProps> = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       )}
     </div>
