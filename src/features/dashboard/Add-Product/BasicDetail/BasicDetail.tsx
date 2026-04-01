@@ -1,7 +1,6 @@
-import { ChangeEvent, useId } from 'react';
+import { ChangeEvent, memo, useCallback, useId } from 'react';
 import MainCard from '../../../../components/Main-Card/MainCard';
 import InputField from '../../../../components/Form/InputField';
-import RadioButton from '../../../../components/Form/RadioButton';
 import DatePicker from '../../../../components/Form/DatePicker';
 import SwitchButton from '../../../../components/SwitchButton/SwitchButton';
 import styles from './BasicDetail.module.css';
@@ -9,45 +8,66 @@ import Button from '../../../../components/Button/Button';
 import { IBasicDetailProps } from './interface';
 import { BasicDetailFormState } from '../types';
 
-const BasicDetail: React.FC<IBasicDetailProps> = ({
-    value,
-    onChange,
-    onPublish,
-    onSaveDraft,
-    canPublish,
-    isSubmitting,
-}) => {
+const STOCK_STATUS_OPTIONS = [
+    { label: 'In Stock', value: 'in-stock' },
+    { label: 'Out of Stock', value: 'out-of-stock' },
+];
+
+const BasicDetail = memo(({ value, onChange, onPublish, onSaveDraft, canPublish, isSubmitting }: IBasicDetailProps) => {
     const taxIncludedName = useId();
 
-    const setField = <K extends keyof BasicDetailFormState>(
-        field: K,
-        nextValue: BasicDetailFormState[K]
-    ) => {
-        onChange({
-            ...value,
-            [field]: nextValue,
-        });
-    };
+    const setField = useCallback(
+        <K extends keyof BasicDetailFormState>(field: K, nextValue: BasicDetailFormState[K]) => {
+            onChange({
+                ...value,
+                [field]: nextValue,
+            });
+        },
+        [onChange, value]
+    );
 
-    const handleInputChange = <K extends keyof BasicDetailFormState>(field: K) => (
-        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setField(field, event.target.value as BasicDetailFormState[K]);
-    };
-
-    const handleDimensionChange = (
-        dimensionKey: keyof BasicDetailFormState['dimensions']
-    ) => (
-        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        onChange({
-            ...value,
-            dimensions: {
-                ...value.dimensions,
-                [dimensionKey]: event.target.value,
+    const handleInputChange = useCallback(
+        <K extends keyof BasicDetailFormState>(field: K) =>
+            (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                setField(field, event.target.value as BasicDetailFormState[K]);
             },
-        });
-    };
+        [setField]
+    );
+
+    const handleDimensionChange = useCallback(
+        (dimensionKey: keyof BasicDetailFormState['dimensions']) =>
+            (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                onChange({
+                    ...value,
+                    dimensions: {
+                        ...value.dimensions,
+                        [dimensionKey]: event.target.value,
+                    },
+                });
+            },
+        [onChange, value]
+    );
+
+    const handleDateChange = useCallback(
+        (field: 'startDate' | 'endDate') => (nextValue: string) => {
+            setField(field, nextValue);
+        },
+        [setField]
+    );
+
+    const handleUnlimitedChange = useCallback(
+        (checked: boolean) => {
+            setField('isUnlimited', checked);
+        },
+        [setField]
+    );
+
+    const handleFeaturedChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            setField('isFeatured', event.target.checked);
+        },
+        [setField]
+    );
 
     return (
         <MainCard>
@@ -156,8 +176,8 @@ const BasicDetail: React.FC<IBasicDetailProps> = ({
                 <div>
                     <h4 className={styles.inputLabel}>Expiration</h4>
                     <div className={styles.inputWrapper}>
-                        <DatePicker placeholder="Start" value={value.startDate} onChange={(val) => setField('startDate', val)} />
-                        <DatePicker placeholder="End" value={value.endDate} onChange={(val) => setField('endDate', val)} />
+                        <DatePicker placeholder="Start" value={value.startDate} onChange={handleDateChange('startDate')} />
+                        <DatePicker placeholder="End" value={value.endDate} onChange={handleDateChange('endDate')} />
                     </div>
                 </div>
             </div>
@@ -178,24 +198,21 @@ const BasicDetail: React.FC<IBasicDetailProps> = ({
                         value={value.stockStatus}
                         onChange={handleInputChange('stockStatus')}
                         variant="dropdown"
-                        dropdownOptions={[
-                            { label: 'In Stock', value: 'in-stock' },
-                            { label: 'Out of Stock', value: 'out-of-stock' },
-                        ]}
+                        dropdownOptions={STOCK_STATUS_OPTIONS}
                     />
                 </div>
                 <div>
-                    <SwitchButton isChecked={value.isUnlimited} onChange={(checked) => setField('isUnlimited', checked)} />
+                    <SwitchButton isChecked={value.isUnlimited} onChange={handleUnlimitedChange} />
                     <label>Unlimited</label>
                 </div>
                 <div className={`${styles.formGroup} ${styles.featuredGroup}`}>
                     <input
                         type="checkbox"
-                        id="featured"
+                        id={taxIncludedName}
                         checked={value.isFeatured}
-                        onChange={(event) => setField('isFeatured', event.target.checked)}
+                        onChange={handleFeaturedChange}
                     />
-                    <label htmlFor="featured">Highlight this product in a featured section.</label>
+                    <label htmlFor={taxIncludedName}>Highlight this product in a featured section.</label>
                 </div>
             </div>
 
@@ -211,6 +228,6 @@ const BasicDetail: React.FC<IBasicDetailProps> = ({
             </div>
         </MainCard>
     );
-};
+});
 
 export default BasicDetail;
