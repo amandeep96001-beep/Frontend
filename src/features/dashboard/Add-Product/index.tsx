@@ -214,8 +214,8 @@ const AddProduct = () => {
           <BasicDetail
             value={basicDetail}
             onChange={handleBasicDetailChange}
-            onPublish={() => handleSubmit('publish')}
-            onSaveDraft={() => handleSubmit('draft')}
+            onPublish={handlePublish}
+            onSaveDraft={handleDraft}
             canPublish={canPublish}
             isSubmitting={isLoading}
           />

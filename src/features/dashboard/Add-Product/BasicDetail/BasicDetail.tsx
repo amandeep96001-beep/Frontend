@@ -14,7 +14,7 @@ const STOCK_STATUS_OPTIONS = [
 ];
 
 const BasicDetail = memo(({ value, onChange, onPublish, onSaveDraft, canPublish, isSubmitting }: IBasicDetailProps) => {
-    const taxIncludedName = useId();
+    const featuredId = useId();
 
     const setField = useCallback(
         <K extends keyof BasicDetailFormState>(field: K, nextValue: BasicDetailFormState[K]) => {
@@ -208,11 +208,11 @@ const BasicDetail = memo(({ value, onChange, onPublish, onSaveDraft, canPublish,
                 <div className={`${styles.formGroup} ${styles.featuredGroup}`}>
                     <input
                         type="checkbox"
-                        id={taxIncludedName}
+                        id={featuredId}
                         checked={value.isFeatured}
                         onChange={handleFeaturedChange}
                     />
-                    <label htmlFor={taxIncludedName}>Highlight this product in a featured section.</label>
+                    <label htmlFor={featuredId}>Highlight this product in a featured section.</label>
                 </div>
             </div>
 
