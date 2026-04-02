@@ -4,48 +4,10 @@ import InputField from '../../../../components/Form/InputField';
 import Button from '../../../../components/Button/Button';
 import styles from './ProductMedia.module.css';
 import { uploadToCloudinary } from '../../../../utils/cloudinary';
-import { ProductMediaState } from '../types';
+import { ProductMediaProps } from './interface';
+import { deriveCategoryErrorMessage } from './utils';
 import { useNotification } from '../../../../providers/NotificationProvider';
 import { useGetCategoriesQuery } from '../../../../redux/product.api';
-
-const deriveCategoryErrorMessage = (error: unknown) => {
-  if (error instanceof Error) {
-    return error.message;
-  }
-
-  if (error && typeof error === 'object') {
-    const payload = error as { data?: unknown; error?: string };
-    if (typeof payload.error === 'string' && payload.error.trim()) {
-      return payload.error;
-    }
-
-    if (payload.data) {
-      if (typeof payload.data === 'string') {
-        return payload.data;
-      }
-
-      if (typeof payload.data === 'object') {
-        const data = payload.data as { message?: string; error?: string };
-        if (data.message) {
-          return data.message;
-        }
-        if (data.error) {
-          return data.error;
-        }
-      }
-    }
-  }
-
-  return 'Unable to load categories.';
-};
-
-
-interface ProductMediaProps {
-  value: ProductMediaState;
-  onChange: (next: ProductMediaState) => void;
-  isUploading: boolean;
-  onUploadStateChange: (status: boolean) => void;
-}
 
 const ProductMedia: React.FC<ProductMediaProps> = ({ value, onChange, isUploading, onUploadStateChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
