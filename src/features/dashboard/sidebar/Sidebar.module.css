@@ -52,7 +52,9 @@
   margin-bottom: 0.18rem;
   outline: 0 solid transparent;
 }
-.section ul li:hover,
+.section ul li:hover{
+  background:  var(--color-tertiary); 
+}
 .section ul li.active {
   background:  var(--color-secondary);
   color: var(--color-surface);
