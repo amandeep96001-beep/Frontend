@@ -47,6 +47,13 @@ export const productApi = api.injectEndpoints({
       }),
       transformResponse: (response: unknown) => normalizeCategoryResponse(response),
     }),
+    createCategory: builder.mutation<unknown, { name: string; description: string; image: string }>({
+      query: (payload) => ({
+        url: 'category',
+        method: 'POST',
+        body: payload,
+      }),
+    }),
     createProduct: builder.mutation<unknown, CreateProductPayload>({
       query: (product) => ({
         url: '/product',
@@ -58,4 +65,4 @@ export const productApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useCreateProductMutation, useGetCategoriesQuery } = productApi;
+export const { useCreateCategoryMutation, useCreateProductMutation, useGetCategoriesQuery } = productApi;
