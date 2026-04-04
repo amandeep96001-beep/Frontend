@@ -217,7 +217,10 @@ const EditProduct = () => {
               loading={isUpdating}
               disabled={!canUpdate || isUpdating}
             />
-            <Button label="Cancel" variant="ghost" onClick={() => navigate('/')} />
+            <Button label="Cancel" variant="ghost" onClick={() => {
+              if (window.history.length > 1) navigate(-1);
+              else navigate('/');
+            }} />
             <Button label="" icon={<PlusIcon />} variant="ghost" onClick={() => {}} aria-label="Add" />
           </div>
         </div>

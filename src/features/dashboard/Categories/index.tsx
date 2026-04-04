@@ -205,7 +205,6 @@ const Categories: React.FC = () => {
             icon={<PlusIcon />}
             onClick={openDrawer}
           />
-          <Button label="More Action" variant="ghost" onClick={() => {}} />
         </div>
       </div>
 
