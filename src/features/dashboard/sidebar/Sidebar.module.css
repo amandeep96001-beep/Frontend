@@ -40,6 +40,11 @@
   margin: 0;
 }
 .section ul li {
+  margin-bottom: 0.18rem;
+  list-style: none;
+}
+
+.navItem {
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -49,13 +54,15 @@
   color: var(--color-primary-gray);
   cursor: pointer;
   transition: background 0.15s, color 0.15s, outline 0.13s;
-  margin-bottom: 0.18rem;
   outline: 0 solid transparent;
+  text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
 }
-.section ul li:hover{
+.section ul li:hover .navItem{
   background:  var(--color-tertiary); 
 }
-.section ul li.active {
+.navItem.active {
   background:  var(--color-secondary);
   color: var(--color-surface);
   transform: translateX(4px);

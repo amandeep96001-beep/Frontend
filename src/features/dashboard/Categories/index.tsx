@@ -5,10 +5,11 @@ import SearchBox from '../../../components/SearchBox/SearchBox';
 import Button from '../../../components/Button/Button';
 import InputField from '../../../components/Form/InputField';
 import { PlusIcon } from '../../../asset/icons';
-import { useCreateCategoryMutation, useGetCategoriesQuery } from '../../../redux/product.api';
+import { useCreateCategoryMutation, useDeleteProductMutation, useGetCategoriesQuery, useGetProductsQuery } from '../../../redux/product.api';
 import { useNotification } from '../../../providers/NotificationProvider';
 import { uploadToCloudinary } from '../../../utils/cloudinary';
 import { deriveCategoryErrorMessage } from '../Add-Product/ProductMedia/utils';
+import { useNavigate } from 'react-router-dom';
 
 type CategoryFormState = {
   name: string;
@@ -28,8 +29,11 @@ const Categories: React.FC = () => {
   const [formState, setFormState] = useState<CategoryFormState>(() => createInitialForm());
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
+  const [productSearch, setProductSearch] = useState('');
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { showNotification } = useNotification();
+  const navigate = useNavigate();
   const {
     data: categories = [],
     isLoading: isCategoriesLoading,
@@ -38,7 +42,16 @@ const Categories: React.FC = () => {
     error: categoriesError,
     refetch: refetchCategories,
   } = useGetCategoriesQuery();
+  const {
+    data: products = [],
+    isLoading: isProductsLoading,
+    isFetching: isProductsFetching,
+    isError: isProductsError,
+    error: productsError,
+    refetch: refetchProducts,
+  } = useGetProductsQuery();
   const [createCategory, { isLoading: isCreating }] = useCreateCategoryMutation();
+  const [deleteProduct] = useDeleteProductMutation();
 
   const isBusy = isUploading || isCreating;
 
@@ -46,6 +59,11 @@ const Categories: React.FC = () => {
     if (!isCategoriesError) return;
     showNotification({ message: deriveCategoryErrorMessage(categoriesError), type: 'error' });
   }, [categoriesError, isCategoriesError, showNotification]);
+
+  useEffect(() => {
+    if (!isProductsError) return;
+    showNotification({ message: deriveCategoryErrorMessage(productsError), type: 'error' });
+  }, [isProductsError, productsError, showNotification]);
 
   useEffect(() => {
     if (!formState.imageFile) {
@@ -66,6 +84,12 @@ const Categories: React.FC = () => {
       return nameMatch || descriptionMatch;
     });
   }, [categories, searchTerm]);
+
+  const filteredProducts = useMemo(() => {
+    const term = productSearch.trim().toLowerCase();
+    if (!term) return products;
+    return products.filter((product) => product.title?.toLowerCase().includes(term));
+  }, [productSearch, products]);
 
   const resetForm = useCallback(() => {
     setFormState(createInitialForm());
@@ -133,6 +157,32 @@ const Categories: React.FC = () => {
       setIsUploading(false);
     }
   }, [createCategory, deriveCreateErrorMessage, formState, refetchCategories, resetForm, showNotification]);
+
+  const handleEditProduct = useCallback(
+    (id: string) => {
+      const selected = products.find((item) => item._id === id);
+      navigate(`/products/${id}/edit`, { state: { product: selected } });
+    },
+    [navigate, products]
+  );
+
+  const handleDeleteProduct = useCallback(
+    async (id: string) => {
+      const confirmed = window.confirm('Are you sure you want to delete this product?');
+      if (!confirmed) return;
+      setDeletingId(id);
+      try {
+        await deleteProduct(id).unwrap();
+        showNotification({ message: 'Product deleted successfully.', type: 'success' });
+        refetchProducts();
+      } catch (error) {
+        showNotification({ message: deriveCategoryErrorMessage(error), type: 'error' });
+      } finally {
+        setDeletingId(null);
+      }
+    },
+    [deleteProduct, showNotification]
+  );
 
   return (
     <div className={styles.container}>
@@ -204,7 +254,13 @@ const Categories: React.FC = () => {
             <button type="button" className={styles.tab}>Out of Stock</button>
           </div>
           <div className={styles.productActions}>
-            <SearchBox variant="compact" placeholder="Search your product" className={styles.productSearch} />
+            <SearchBox
+              variant="compact"
+              placeholder="Search your product"
+              className={styles.productSearch}
+              value={productSearch}
+              onChange={(event) => setProductSearch(event.target.value)}
+            />
             <button type="button" className={styles.iconButton} aria-label="Filters">≡</button>
             <button type="button" className={styles.iconButton} aria-label="Settings">⋯</button>
           </div>
@@ -218,7 +274,53 @@ const Categories: React.FC = () => {
             <div>Order</div>
             <div>Action</div>
           </div>
-          <div className={styles.tableEmpty}>No products available yet.</div>
+          {isProductsLoading || isProductsFetching ? (
+            <div className={styles.tableEmpty}>Loading products...</div>
+          ) : filteredProducts.length ? (
+            filteredProducts.map((product, index) => {
+              const createdAt = product.createdAt
+                ? new Date(product.createdAt).toLocaleDateString('en-GB')
+                : '-';
+              const orderValue = product.order ?? product.stockQuantity ?? '-';
+              const imageSource = Array.isArray(product.image) ? product.image[0] : product.image;
+              return (
+                <div key={product._id} className={styles.tableRow}>
+                  <div>{index + 1}</div>
+                  <div className={styles.productCell}>
+                    <div className={styles.productThumb}>
+                      {imageSource ? (
+                        <img src={imageSource} alt={product.title} />
+                      ) : (
+                        <span>{product.title?.slice(0, 1).toUpperCase() || 'P'}</span>
+                      )}
+                    </div>
+                    <span className={styles.productTitle}>{product.title}</span>
+                  </div>
+                  <div>{createdAt}</div>
+                  <div>{orderValue}</div>
+                  <div className={styles.actionCell}>
+                    <button
+                      type="button"
+                      className={styles.actionButton}
+                      onClick={() => handleEditProduct(product._id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.actionButton}
+                      onClick={() => handleDeleteProduct(product._id)}
+                      disabled={deletingId === product._id}
+                    >
+                      {deletingId === product._id ? 'Deleting...' : 'Delete'}
+                    </button>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className={styles.tableEmpty}>No products available yet.</div>
+          )}
         </div>
       </MainCard>
 

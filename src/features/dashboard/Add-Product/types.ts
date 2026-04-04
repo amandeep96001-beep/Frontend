@@ -63,3 +63,33 @@ export interface Category {
   description?: string;
   image?: string;
 }
+
+export interface Product {
+  _id: string;
+  title: string;
+  description?: string;
+  brand?: string;
+  sku?: string;
+  type?: string;
+  basePrice?: number;
+  discountPrice?: number;
+  tax?: number;
+  image?: string[] | string;
+  categoryId?: string;
+  tag?: string;
+  color?: string;
+  weight?: number;
+  dimensions?: {
+    length?: number;
+    width?: number;
+    height?: number;
+  };
+  isFeatured?: boolean;
+  createdAt?: string;
+  order?: number;
+  stockQuantity?: number;
+  stockStatus?: StockStatus;
+  isUnlimited?: boolean;
+  startDate?: string;
+  endDate?: string;
+}

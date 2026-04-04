@@ -1,16 +1,19 @@
 import Sidebar from './sidebar/Sidebar';
 import styles from './Dashboard.module.css';
 import Navbar from '../../components/Navbar/Navbar';
-import AddProduct from './Add-Product';
+import { Outlet, useLocation } from 'react-router-dom';
 
 const Dashboard = () => {
+  const location = useLocation();
+  const hideNavbar = location.pathname.startsWith('/products/');
+
   return (
     <div className={styles.dashboard}>
       <Sidebar />
       <div className={styles.dashboardContent}>
-        <Navbar />
+        {!hideNavbar && <Navbar />}
         <main className={styles.mainContent}>
-          <AddProduct />
+          <Outlet />
         </main>
       </div>
     </div>

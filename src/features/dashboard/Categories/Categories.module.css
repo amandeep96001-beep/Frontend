@@ -209,6 +209,66 @@
   padding: 0.6rem 0.8rem;
 }
 
+.tableRow {
+  display: grid;
+  grid-template-columns: 60px 1.4fr 1fr 0.7fr 0.6fr;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.82rem;
+  color: #0f172a;
+  border-top: 1px solid #eef2f7;
+  align-items: center;
+  background: #fff;
+}
+
+.productCell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.productThumb {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.productThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.productTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.actionCell {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.actionButton {
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #475569;
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
 .tableEmpty {
   padding: 1rem 0.8rem;
   font-size: 0.85rem;
